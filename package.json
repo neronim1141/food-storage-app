@@ -1,0 +1,21 @@
+{
+  "name": "food-app",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "dotenv -- turbo run build",
+    "dev": "dotenv -- turbo run dev --parallel",
+    "dev:start": "docker compose -f ./docker-compose-dev.yml up -d",
+    "dev:docker-build-image": "docker compose -f ./docker-compose-dev.yml up --build -d",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^5.11.0",
+    "dotenv-cli": "^7.4.2",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "prettier": "^2.5.1",
+    "turbo": "latest"
+  }
+}

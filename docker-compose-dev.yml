@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:5.0.6
+    ports:
+      - "27017:27017"
+    networks:
+      - mern-app
+    volumes:
+      - mongo-data:/data/db
+    restart: always
+
+  # #turborepo
+  turbo:
+    container_name: turbo-client-server
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    networks:
+      - mern-app
+    ports:
+      - "3000:3000"
+      - "4000:4000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017
+      - MONGO_DATABASE=appdb
+      - NODE_ENV=development
+      - API_PORT=4000
+      - ACCESS_TOKEN_SECRET=access_token_secret
+      - REFRESH_TOKEN_SECRET=refresh_token_secret
+    volumes:
+      - ./:/app
+      - /app/node_modules/
+    restart: on-failure
+    depends_on:
+      - mongo
+networks:
+  mern-app:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
